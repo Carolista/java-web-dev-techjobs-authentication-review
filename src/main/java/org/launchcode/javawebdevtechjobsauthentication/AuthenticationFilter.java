@@ -18,7 +18,6 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     UserRepository userRepository;
 
-    // Any class marked with @Controller is automatically registered as being Spring-managed
     @Autowired
     AuthenticationController authenticationController;
 
