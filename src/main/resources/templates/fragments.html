@@ -20,10 +20,14 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/add}">Add Jobs</a></li>
-                <li><a th:href="@{/login}">Log In</a></li>
-                <li><a th:href="@{/register}">Register</a></li>
-                <li><a th:href="@{/logout}">Log Out</a></li>
+                <th:block th:if="${session} and ${session.isEmpty()}">
+                    <li><a th:href="@{/register}">Register</a></li>
+                    <li><a th:href="@{/login}">Log In</a></li>
+                </th:block>
+                <th:block th:unless="${session} and ${session.isEmpty()}">
+                    <li><a th:href="@{/add}">Add Jobs</a></li>
+                    <li><a th:href="@{/logout}">Log Out</a></li>
+                </th:block>
             </ul>
         </div>
     </div>
