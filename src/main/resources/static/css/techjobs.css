@@ -60,3 +60,19 @@ div.job-listing {
     width: 80%;
     background-color: #e4e4e4;
 }
+
+/* Added by Carrie */
+
+
+form {
+    margin-bottom: 16px;
+}
+
+p.normal-margins {
+    margin: 0 0 6px 0;
+}
+
+.error {
+    color: firebrick;
+    margin: 6px 0;
+}

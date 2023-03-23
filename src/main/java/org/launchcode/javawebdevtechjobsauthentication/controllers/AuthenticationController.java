@@ -2,6 +2,7 @@ package org.launchcode.javawebdevtechjobsauthentication.controllers;
 
 import org.launchcode.javawebdevtechjobsauthentication.models.User;
 import org.launchcode.javawebdevtechjobsauthentication.models.data.UserRepository;
+import org.launchcode.javawebdevtechjobsauthentication.models.dto.LoginFormDTO;
 import org.launchcode.javawebdevtechjobsauthentication.models.dto.RegistrationFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +52,7 @@ public class AuthenticationController {
         return userOpt.get();
     }
 
-    // Handlers for registration page
+    // Handlers for registration form
     @GetMapping("/register")
     public String displayRegistrationForm(Model model) {
         model.addAttribute(new RegistrationFormDTO()); // automatically creates variable registrationFormDTO
@@ -93,9 +94,50 @@ public class AuthenticationController {
         return "redirect:";
     }
 
+    // Handlers for login form
+    @GetMapping("/login")
+    public String displayLoginForm(Model model) {
+        model.addAttribute(new LoginFormDTO());
+        return "login";
+    }
 
+    @PostMapping("/login")
+    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
+                                   Errors errors,
+                                   HttpServletRequest request,
+                                   Model model) {
 
+        // Send user back to form if errors are found
+        if (errors.hasErrors()) {
+            return "login";
+        }
 
-    // Handlers for login page
+        // Look up user in database using username they provided in the form
+        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
 
+        // Get the password the user supplied in the form
+        String password = loginFormDTO.getPassword();
+
+        // Send user back to form if username does not exist OR if password hash doesn't match
+        // "Security through obscurity" — don't reveal which one was the problem
+        if (theUser == null || !theUser.isMatchingPassword(password)) {
+            errors.rejectValue(
+                    "password",
+                    "login.invalid",
+                    "Credentials invalid. Please try again with correct username/password combination."
+            );
+            return "login";
+        }
+
+        // OTHERWISE, create a new session for the user and take them to the home page
+        setUserInSession(request.getSession(), theUser);
+        return "redirect:";
+    }
+
+    // Handler for logout
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:/login";
+    }
 }
