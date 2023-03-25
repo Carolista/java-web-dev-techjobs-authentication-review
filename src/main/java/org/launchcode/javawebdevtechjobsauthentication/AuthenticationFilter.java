@@ -2,7 +2,6 @@ package org.launchcode.javawebdevtechjobsauthentication;
 
 import org.launchcode.javawebdevtechjobsauthentication.controllers.AuthenticationController;
 import org.launchcode.javawebdevtechjobsauthentication.models.User;
-import org.launchcode.javawebdevtechjobsauthentication.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,9 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AuthenticationFilter implements HandlerInterceptor {
-
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     AuthenticationController authenticationController;
