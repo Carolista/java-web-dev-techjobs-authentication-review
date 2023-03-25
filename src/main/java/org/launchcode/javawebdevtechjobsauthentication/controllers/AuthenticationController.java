@@ -62,8 +62,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public String processRegistrationForm(@ModelAttribute @Valid RegistrationFormDTO registrationFormDTO,
                                           Errors errors,
-                                          HttpServletRequest request,
-                                          Model model) {
+                                          HttpServletRequest request) {
 
         // Send user back to form if errors are found
         if (errors.hasErrors()) {
@@ -104,8 +103,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
                                    Errors errors,
-                                   HttpServletRequest request,
-                                   Model model) {
+                                   HttpServletRequest request) {
 
         // Send user back to form if errors are found
         if (errors.hasErrors()) {
